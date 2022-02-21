@@ -28,7 +28,7 @@ yarn start
 #### Description
 
 |속성|type|default|설명|
-|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:--|
 |size|`"medium"` `"large"`|"medium"|로그인 버튼의 사이즈|
 |apiKey|`string`|-|Kakao Developer 사이트에서 발급받은 API Key|
 |redirectURI|`string`|-|Kakao Developer에 등록한 Redirect URI|
