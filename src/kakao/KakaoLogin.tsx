@@ -1,11 +1,20 @@
-import { useCallback, useEffect } from "react";
+import { CSSProperties, useCallback, useEffect } from "react";
 import { loadScript } from "../utils/load-script";
 import KakaoLoginBtnMedium from "./assets/kakao_login_medium_narrow.png";
 import KakaoLoginBtnLarge from "./assets/kakao_login_large_narrow.png";
 import { KakaoLoginBtn } from "./KakaoLogin.style";
 import { useSearchParams } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
-import { Props, KakaoLoginSuccessInterface } from "./type";
+import { KakaoLoginSuccessInterface } from "./type";
+
+interface Props {
+  apiKey: string;
+  redirectURI: string;
+  onSuccess: (data: KakaoLoginSuccessInterface) => void;
+  onFail?: (error: AxiosResponse) => void;
+  size?: string;
+  style?: CSSProperties;
+}
 
 const KakaoLogin = ({ apiKey, redirectURI, onSuccess, onFail, size = "medium", style }: Props) => {
   const [params] = useSearchParams();
