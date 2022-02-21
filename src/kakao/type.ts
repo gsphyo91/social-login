@@ -6,3 +6,14 @@ export interface KakaoLoginSuccessInterface {
   scope: string;
   token_type: string;
 }
+
+declare global {
+  interface Window {
+    Kakao: {
+      init: (apiKey: string) => void;
+      Auth: {
+        authorize: (options: { redirectUri: string; state?: string }) => void;
+      };
+    };
+  }
+}
