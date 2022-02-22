@@ -1,24 +1,23 @@
-import { Route, Routes } from "react-router-dom";
-import { KakaoLogin, KakaoLoginSuccessInterface } from "./kakao";
+import { GoogleLogin } from "./google";
+import { KakaoLogin } from "./kakao";
 
 function App() {
-  const onSuccessKakao = (data: KakaoLoginSuccessInterface) => {
+  const onSuccess = (data: any) => {
     console.log(data);
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <KakaoLogin
-            apiKey={process.env.REACT_APP_KAKAO_API_KEY as string}
-            redirectURI="http://localhost:3000"
-            onSuccess={onSuccessKakao}
-          />
-        }
+    <>
+      <KakaoLogin
+        apiKey={process.env.REACT_APP_KAKAO_API_KEY as string}
+        redirectURI="http://localhost:3000"
+        onSuccess={onSuccess}
       />
-    </Routes>
+      <GoogleLogin
+        client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
+        onSuccess={onSuccess}
+      />
+    </>
   );
 }
 
