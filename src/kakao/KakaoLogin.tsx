@@ -1,27 +1,27 @@
-import { CSSProperties, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { loadScript } from "../utils/load-script";
 import KakaoLoginBtnMedium from "./assets/kakao_login_medium_narrow.png";
 import KakaoLoginBtnLarge from "./assets/kakao_login_large_narrow.png";
 import { KakaoLoginBtn } from "./KakaoLogin.style";
 import { useSearchParams } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
-import { KakaoLoginSuccessInterface } from "./type";
+import { KakaoGetTokenParameter, KakaoLoginSuccessInterface, Props } from "./type";
 
-interface Props {
-  apiKey: string;
-  redirectURI: string;
-  onSuccess: (data: KakaoLoginSuccessInterface) => void;
-  onFail?: (error: AxiosResponse) => void;
-  size?: string;
-  style?: CSSProperties;
-}
-
-const KakaoLogin = ({ apiKey, redirectURI, onSuccess, onFail, size = "medium", style }: Props) => {
+const KakaoLogin = ({
+  size = "medium",
+  options: { client_id, redirectUri, client_secret, scope = "", state = "", throughTalk },
+  onSuccess,
+  onFail,
+  style,
+}: Props) => {
   const [params] = useSearchParams();
 
   const onClickKakaoLogin = () => {
     window.Kakao.Auth.authorize({
-      redirectUri: redirectURI,
+      redirectUri,
+      state,
+      scope,
+      throughTalk,
     });
   };
 
@@ -35,11 +35,12 @@ const KakaoLogin = ({ apiKey, redirectURI, onSuccess, onFail, size = "medium", s
           },
         });
 
-        const params = {
+        const params: KakaoGetTokenParameter = {
           grant_type: "authorization_code",
-          client_id: apiKey,
-          redirect_uri: redirectURI,
+          client_id,
+          redirect_uri: redirectUri,
           code,
+          client_secret,
         };
 
         const { data }: AxiosResponse<KakaoLoginSuccessInterface> = await kakaoApi.post(
@@ -55,7 +56,7 @@ const KakaoLogin = ({ apiKey, redirectURI, onSuccess, onFail, size = "medium", s
         console.error(err);
       }
     },
-    [apiKey, onSuccess, redirectURI]
+    [client_id, onSuccess, redirectUri]
   );
 
   useEffect(() => {
@@ -66,10 +67,10 @@ const KakaoLogin = ({ apiKey, redirectURI, onSuccess, onFail, size = "medium", s
         console.error(err);
       },
       onLoad: () => {
-        window.Kakao.init(apiKey);
+        window.Kakao.init(client_id);
       },
     });
-  }, [apiKey]);
+  }, [client_id]);
 
   useEffect(() => {
     const code = params.get("code");
