@@ -9,12 +9,16 @@ function App() {
   return (
     <>
       <KakaoLogin
-        apiKey={process.env.REACT_APP_KAKAO_API_KEY as string}
-        redirectURI="http://localhost:3000"
+        options={{
+          client_id: process.env.REACT_APP_KAKAO_API_KEY as string,
+          redirectUri: "http://localhost:3000",
+        }}
         onSuccess={onSuccess}
       />
       <GoogleLogin
-        client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
+        options={{
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID as string,
+        }}
         onSuccess={onSuccess}
       />
     </>

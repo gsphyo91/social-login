@@ -5,15 +5,18 @@ import { GoogleLoginBtn } from "./GoogleLogin.style";
 import { Props } from "./type";
 
 const GoogleLogin = ({
-  client_id,
-  cookie_policy = "single_host_origin",
-  scope,
-  fetch_basic_profile = true,
-  hosted_domain,
-  ux_mode = "popup",
-  redirect_uri,
-  prompt,
+  options: {
+    client_id,
+    cookie_policy = "single_host_origin",
+    scope,
+    fetch_basic_profile = true,
+    hosted_domain,
+    ux_mode = "popup",
+    redirect_uri,
+    prompt,
+  },
   onSuccess,
+  style,
 }: Props) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -56,7 +59,6 @@ const GoogleLogin = ({
       src: "https://apis.google.com/js/platform.js",
       onLoad: () => {
         window.gapi.load("auth2", initGoogleLogin);
-        console.log(`Loaded!!!`);
       },
       onError: (error) => {
         console.error(error);
@@ -65,7 +67,7 @@ const GoogleLogin = ({
   }, [initGoogleLogin]);
 
   return (
-    <GoogleLoginBtn onClick={signInWithGoogle}>
+    <GoogleLoginBtn onClick={signInWithGoogle} style={style}>
       <img src={GoogleLoginBtnImage} alt="구글 로그인 버튼" />
     </GoogleLoginBtn>
   );

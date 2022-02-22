@@ -1,9 +1,11 @@
-export type Props = GoogleAuth2InitParameters & GoogleAuthSignInParameters & Callback;
+import { CSSProperties } from "react";
 
-interface Callback {
+export interface Props {
+  options: GoogleAuth2InitParameters & GoogleAuthSignInParameters;
   onSuccess: (data: any) => void;
+  onFail?: () => void;
+  style?: CSSProperties;
 }
-
 interface GoogleAuth2InitParameters {
   /**
    * Client ID(required)
